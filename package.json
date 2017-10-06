@@ -4,6 +4,7 @@
   "license": "MIT",
   "dependencies": {
     "@symfony/webpack-encore": "^0.15.1",
+    "lodash": "^4.17.4",
     "vue": "^2.4.4",
     "vuetify": "^0.16.1"
   },

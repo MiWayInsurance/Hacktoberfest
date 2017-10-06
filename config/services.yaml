@@ -26,3 +26,8 @@ services:
     App\Action\:
         resource: '../src/Action'
         tags: ['controller.service_arguments']
+
+    App\Api\Github:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $cacheDir: '%kernel.cache_dir%/github'

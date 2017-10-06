@@ -5,6 +5,7 @@
     "require": {
         "php": ">=7.1",
         "symfony/asset": "^3.3",
+        "symfony/cache": "^3.3",
         "symfony/console": "^3.3",
         "symfony/framework-bundle": "^3.3",
         "symfony/twig-bundle": "^3.3",
