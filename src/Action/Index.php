@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Index
 {
-    public function __invoke()
+    public function __invoke(\Twig_Environment $twig)
     {
-        return new Response('Hello World!');
+        return new Response($twig->render('index.html.twig'));
     }
 }

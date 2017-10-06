@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/global.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+    <div id="app">
+        <app></app>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/app.js') }}"></script>
+{% endblock %}

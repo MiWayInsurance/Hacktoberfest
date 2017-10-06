@@ -4,8 +4,10 @@
     "type": "project",
     "require": {
         "php": ">=7.1",
+        "symfony/asset": "^3.3",
         "symfony/console": "^3.3",
         "symfony/framework-bundle": "^3.3",
+        "symfony/twig-bundle": "^3.3",
         "symfony/web-server-bundle": "^3.3",
         "symfony/yaml": "^3.3"
     },

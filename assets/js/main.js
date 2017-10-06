@@ -1,5 +1,9 @@
-import Vue from 'vuejs';
+import Vue from 'vue';
+import App from './components/app.vue';
 
 new Vue({
-    el: '#app'
+    el: '#app',
+    components: {
+        'app': App
+    }
 });
