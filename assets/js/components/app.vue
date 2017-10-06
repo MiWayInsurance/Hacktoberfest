@@ -2,7 +2,7 @@
     <v-container grid-list-xl text-xs-center>
         <v-layout row wrap  v-bind="binding">
             <div class="vs hidden-md-and-down">VS</div>
-            <v-flex v-for="(developers, team) in data">
+            <v-flex v-for="(developers, team) in data" :key="team">
                 <v-card class="header elevation-10" :class="team">
                     <v-card-text class="px-0"></v-card-text>
                 </v-card>
