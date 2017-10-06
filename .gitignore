@@ -15,5 +15,3 @@ node_modules
 ###> symfony/web-server-bundle ###
 .web-server-pid
 ###< symfony/web-server-bundle ###
-
-public/assets
