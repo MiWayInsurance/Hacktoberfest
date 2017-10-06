@@ -1,0 +1,16 @@
+{
+  "name": "hacktoberfest",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@symfony/webpack-encore": "^0.15.1",
+    "vue": "^2.4.4",
+    "vuetify": "^0.16.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "less-loader": "^4.0.5",
+    "vue-loader": "^13.0.5"
+  }
+}
