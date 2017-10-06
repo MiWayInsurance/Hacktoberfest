@@ -1,8 +1,8 @@
 <template>
-    <v-container grid-list-md text-xs-center fluid;>
-        <v-layout row wrap>
-            <div class="vs">VS</div>
-            <v-flex xs6 v-for="(developers, team) in data">
+    <v-container grid-list-xl text-xs-center>
+        <v-layout row wrap  v-bind="binding">
+            <div class="vs hidden-md-and-down">VS</div>
+            <v-flex v-for="(developers, team) in data">
                 <v-card class="header elevation-10" :class="team">
                     <v-card-text class="px-0"></v-card-text>
                 </v-card>
@@ -34,6 +34,17 @@
         methods: {
             total(items) {
                 return sum(map(items, 'total'));
+            }
+        },
+        computed: {
+            binding () {
+                const binding = {};
+
+                if (this.$vuetify.breakpoint.mdAndDown) {
+                    binding.column = true
+                }
+
+                return binding
             }
         }
     }
