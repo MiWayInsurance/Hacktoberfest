@@ -23,7 +23,7 @@ class Github
 
     public function getDeveloperList(): array
     {
-        $this->client->authenticate(getenv('GITHUB_AUTH_TOKEN'), Client::AUTH_HTTP_TOKEN);
+        //$this->client->authenticate(getenv('GITHUB_AUTH_TOKEN'), Client::AUTH_HTTP_TOKEN);
 
         $prs = [];
 
