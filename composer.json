@@ -1,0 +1,52 @@
+{
+    "name": "miway/hacktoberfest",
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": ">=7.1",
+        "symfony/framework-bundle": "dev-master",
+        "symfony/yaml": "^3.3"
+    },
+    "require-dev": {
+        "symfony/flex": "^1.0",
+        "symfony/dotenv": "^3.3",
+        "symfony/phpunit-bridge": "^3.0"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "auto-scripts": [
+        ],
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*",
+        "symfony/twig-bundle": "<3.3",
+        "symfony/debug": "<3.3"
+    },
+    "extra": {
+        "symfony": {
+            "id": "",
+            "allow-contrib": false
+        }
+    }
+}
