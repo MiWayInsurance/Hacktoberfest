@@ -17,7 +17,7 @@ class Github
     {
         $this->client = new Client();
         $this->projectDir = $projectDir;
-        $this->cache = new FilesystemAdapter('', 3600, $cacheDir);
+        $this->cache = new FilesystemAdapter('', 300, $cacheDir);
         $this->client->addCache($this->cache);
     }
 
