@@ -1,0 +1,36 @@
+@import (inline, css) '~vuetify/dist/vuetify.min.css';
+@import (reference) 'variables';
+
+
+.header {
+
+  color: #FFFFFF !important;
+  font-weight: bold;
+
+  height: 7em !important;
+
+  &.miway {
+    background: @miway url('../img/miway.png') no-repeat center center;
+  }
+
+  &.afrihost {
+    background: url('../img/afrihost.png') center center no-repeat;
+  }
+}
+
+.counter {
+  font-size: 4em;
+}
+
+.vs {
+  position: absolute;
+  left: 59em;
+  top: 3.5em;
+  z-index: 28;
+  border-radius: 100%;
+  border: 1px solid #cccccc;
+  padding: 12px;
+  margin: -15px;
+  background: #ffffff;
+  font-weight: bold;
+}

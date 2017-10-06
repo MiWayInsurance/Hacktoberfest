@@ -1,12 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="{{ asset('assets/global.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
     <div id="app">
-        <app></app>
+        <v-app>
+            <main>
+                <v-content>
+                    <app></app>
+                </v-content>
+            </main>
+            <v-footer app></v-footer>
+        </v-app>
     </div>
 {% endblock %}
 
