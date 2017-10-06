@@ -17,13 +17,13 @@ class Github
     {
         $this->client = new Client();
         $this->projectDir = $projectDir;
-        //$cache = new FilesystemAdapter('', 60 * 60, $cacheDir);
-        //$this->client->addCache($cache);
+        $cache = new FilesystemAdapter('', 60 * 60, $cacheDir);
+        $this->client->addCache($cache);
     }
 
     public function getDeveloperList(): array
     {
-        //$this->client->authenticate(getenv('GITHUB_AUTH_TOKEN'), Client::AUTH_HTTP_TOKEN);
+        $this->client->authenticate(getenv('GITHUB_AUTH_TOKEN'), Client::AUTH_HTTP_TOKEN);
 
         $prs = [];
 
