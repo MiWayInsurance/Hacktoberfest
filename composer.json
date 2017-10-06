@@ -4,7 +4,7 @@
     "type": "project",
     "require": {
         "php": ">=7.1",
-        "symfony/framework-bundle": "dev-master",
+        "symfony/framework-bundle": "^3.3",
         "symfony/yaml": "^3.3"
     },
     "require-dev": {
@@ -29,8 +29,10 @@
         }
     },
     "scripts": {
-        "auto-scripts": [
-        ],
+        "auto-scripts": {
+            "make cache-warmup": "script",
+            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
+        },
         "post-install-cmd": [
             "@auto-scripts"
         ],
@@ -45,7 +47,7 @@
     },
     "extra": {
         "symfony": {
-            "id": "",
+            "id": "01BVRRFV5CN78HTY7YZAHEP96Q",
             "allow-contrib": false
         }
     }
