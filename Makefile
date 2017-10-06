@@ -27,7 +27,7 @@ endif
 .PHONY: cache-warmup
 
 assets:
-	node_modules/.bin/encore production
+	yarn --production=false && node_modules/.bin/encore production
 .PHONY: assets
 
 prod: cache-warmup assets
