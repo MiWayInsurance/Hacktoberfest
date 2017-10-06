@@ -26,6 +26,13 @@ else
 endif
 .PHONY: cache-warmup
 
+assets:
+	node_modules/.bin/encore production
+.PHONY: assets
+
+prod: cache-warmup assets
+.PHONY: assets prod
+
 serve_as_sf: sf_console
 ifndef CONSOLE
 	@${MAKE} serve_as_php
