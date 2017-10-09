@@ -30,7 +30,6 @@ class Github
 
     public function getContributions($user)
     {
-        sleep(1);
         $this->client->authenticate(getenv('GITHUB_AUTH_TOKEN'), Client::AUTH_HTTP_TOKEN);
 
         $cache = $this->cache->getItem($user);
