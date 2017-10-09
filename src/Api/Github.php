@@ -9,6 +9,12 @@ use Symfony\Component\Yaml\Yaml;
 
 class Github
 {
+    const AUTHOR_ASSOCIATION = [
+        'COLLABORATOR',
+        'MEMBER',
+        'OWNER'
+    ];
+
     private $client;
 
     private $projectDir;
@@ -49,6 +55,12 @@ class Github
             $issues = $this->client->api('search')->issues(implode(' ', array_map(function ($k, $v) {
                 return "$k:$v";
             }, array_keys($params), array_values($params))));
+
+            $issues['items'] = array_filter($issues['items'], function ($issue) {
+                return !in_array($issue['author_association'], self::AUTHOR_ASSOCIATION);
+            });
+
+            $issues['total_count'] = count($issues['items']);
 
             $user = $this->client->users()->show($user);
 
