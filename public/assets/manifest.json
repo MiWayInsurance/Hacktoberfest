@@ -1,6 +1,6 @@
 {
-  "assets/app.js": "/assets/app.e356fe15b763dae2f148.js",
-  "assets/global.css": "/assets/global.b86c856aff3eb1553caf837a6e9b322e.css",
-  "assets/images/afrihost.png": "/assets/images/afrihost.2173c2a6.png",
-  "assets/images/miway.png": "/assets/images/miway.5ea684af.png"
+  "assets/app.js": "http://localhost:8080/assets/app.js",
+  "assets/global.css": "http://localhost:8080/assets/global.css",
+  "assets/images/afrihost.png": "http://localhost:8080/assets/images/afrihost.2173c2a6.png",
+  "assets/images/miway.png": "http://localhost:8080/assets/images/miway.5ea684af.png"
 }
