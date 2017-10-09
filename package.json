@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "license": "MIT",
   "dependencies": {
+    "@symfony/webpack-encore": "^0.15.1",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "lodash": "^4.17.4",
-    "@symfony/webpack-encore": "^0.15.1",
     "vue": "^2.4.4",
-    "vuetify": "^0.16.1",
     "vue-loader": "^13.0.5",
-    "vue-template-compiler": "^2.4.4"
+    "vue-template-compiler": "^2.4.4",
+    "vuetify": "^0.16.1",
+    "webpack-dashboard": "^1.0.0-5"
   }
 }

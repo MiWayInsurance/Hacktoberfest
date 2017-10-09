@@ -12,7 +12,8 @@
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                     <v-list-tile-title>
-                        <v-progress-linear :value="item.total * 4"></v-progress-linear>
+                        <v-progress-linear v-if="!item.done" v-bind:indeterminate="true"></v-progress-linear>
+                        <v-progress-linear v-else :value="item.total * 4"></v-progress-linear>
                     </v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
@@ -21,18 +22,43 @@
 </template>
 
 <script>
-    import {sortBy, reverse} from 'lodash';
+    import {sortBy, reverse, sum, map, find, extend} from 'lodash';
 
     export default {
         props: {
             items: {
-                type: Object,
+                type: Array,
                 required: true
+            },
+            team: {
+                type: String,
+                require: true
             }
         },
-        computed: {
-            values: function() {
-                return reverse(sortBy(this.items, 'total'));
+        data() {
+            return {
+                values: this.getValues()
+            }
+        },
+        mounted() {
+            this.items.forEach((item) => {
+                this.fetch(item);
+            })
+        },
+        methods: {
+            getValues() {
+                return map(this.items, (name) => {
+                    return {name};
+                });
+            },
+            fetch(user) {
+                fetch('/api/' + user).then((response) => {
+                    response.json().then((result) => {
+                        extend(find(this.values, {'name': user}), result, {'done': true});
+                        this.$emit('update', sum(map(this.values, 'total')), this.team);
+                        this.values = reverse(sortBy(this.values, 'total'));
+                    });
+                });
             }
         }
     }

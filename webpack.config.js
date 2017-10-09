@@ -1,4 +1,5 @@
 var Encore = require('@symfony/webpack-encore');
+var DashboardPlugin = require('webpack-dashboard/plugin');
 
 Encore
     .setOutputPath('public/assets/')
@@ -15,4 +16,8 @@ Encore
     })
 ;
 
-module.exports = Encore.getWebpackConfig();
+let config = Encore.getWebpackConfig();
+
+config.plugins.push(new DashboardPlugin());
+
+module.exports = config;

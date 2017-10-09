@@ -10,7 +10,7 @@
         <v-app>
             <main>
                 <v-content>
-                    <app :data="{{ data|json_encode|raw|e('html_attr') }}"></app>
+                    <app :teams="{{ data|json_encode|raw|e('html_attr') }}"></app>
                 </v-content>
             </main>
             <v-footer app></v-footer>

@@ -1,3 +1,7 @@
 index:
     path: /
     defaults: { _controller: 'App\Action\Index' }
+
+api:
+    path: /api/{user}
+    defaults: { _controller: 'App\Action\Api' }

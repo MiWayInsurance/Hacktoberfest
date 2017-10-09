@@ -10,6 +10,6 @@ class Index
 {
     public function __invoke(\Twig_Environment $twig, Github $github): Response
     {
-        return new Response($twig->render('index.html.twig', ['data' =>  $github->getDeveloperList()]));
+        return new Response($twig->render('index.html.twig', ['data' =>  $github->getTeamsList()]));
     }
 }
