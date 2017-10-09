@@ -72,6 +72,7 @@ class Github
             'total' => $issues['total_count'],
             'avatar' => $user['avatar_url'],
             'name' => $user['name'],
+            'list' => array_column($issues['items'], 'title', 'html_url'),
             'profile' => $user['html_url'],
         ];
     }

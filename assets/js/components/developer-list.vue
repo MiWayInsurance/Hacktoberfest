@@ -1,26 +1,55 @@
 <template>
-    <v-list>
-        <v-subheader>Developer Progress</v-subheader>
-        <template v-for="item in values">
-            <v-divider inset></v-divider>
-            <v-list-tile avatar v-bind:key="item.name" :title="item.name">
-                <v-list-tile-avatar>
-                    <v-badge left overlap color="green">
-                        <span slot="badge">{{ item.total }}</span>
-                        <a v-bind:href="item.profile" target="_blank">
+    <div>
+        <v-list>
+            <v-subheader>Developer Progress</v-subheader>
+            <template v-for="item in values">
+                <v-divider inset></v-divider>
+                <v-list-tile avatar v-bind:key="item.name" :title="item.name">
+                    <v-list-tile-avatar @click.stop="showPrList(item)">
+                        <v-badge left overlap color="green">
+                            <span slot="badge">{{ item.total }}</span>
                             <img v-bind:src="item.avatar">
-                        </a>
-                    </v-badge>
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                    <v-list-tile-title>
-                        <v-progress-linear v-if="!item.done" v-bind:indeterminate="true"></v-progress-linear>
-                        <v-progress-linear v-else :value="item.total * 4"></v-progress-linear>
-                    </v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-        </template>
-    </v-list>
+                        </v-badge>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            <v-progress-linear v-if="!item.done" v-bind:indeterminate="true"></v-progress-linear>
+                            <v-progress-linear v-else :value="item.total * 4"></v-progress-linear>
+                        </v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </template>
+        </v-list>
+
+        <v-dialog v-model="dialog" lazy absolute width="600px">
+            <v-card>
+                <v-card-title>
+                    <div class="headline">{{dialogData.name}} - PR List</div>
+                </v-card-title>
+                <v-card-text>
+                    <v-list two-line>
+                        <template v-for="(title, url) in dialogData.list">
+                            <v-divider></v-divider>
+                            <v-list-tile>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>
+                                        <a :href="url" target="_blank">{{parsePr(url)}}</a>
+                                    </v-list-tile-title>
+                                    <v-list-tile-sub-title>
+                                        {{ title }}
+                                    </v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </template>
+                    </v-list>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat="flat" @click.native="dialog = false">Close</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </div>
 </template>
 
 <script>
@@ -39,6 +68,8 @@
         },
         data() {
             return {
+                dialog: false,
+                dialogData: {},
                 values: this.getValues()
             }
         },
@@ -52,6 +83,15 @@
                 return map(this.items, (name) => {
                     return {name};
                 });
+            },
+            showPrList(user) {
+                this.dialogData = user;
+                this.dialog = true;
+            },
+            parsePr(pr) {
+                let parts = pr.substr(19).split('/');
+
+                return `${parts[0]}/${parts[1]}#${parts[3]}`;
             },
             fetch(user) {
                 fetch('/index.php/api/' + user).then((response) => {
