@@ -4,6 +4,17 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+
+        {% if gaTrackingId is not empty %}
+            <script async src="https://www.googletagmanager.com/gtag/js?id={{ gaTrackingId }}"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '{{ gaTrackingId }}');
+            </script>
+        {% endif %}
     </head>
     <body>
         {% block body %}{% endblock %}

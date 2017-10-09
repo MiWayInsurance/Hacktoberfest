@@ -1,4 +1,9 @@
+parameters:
+    env(GA_TRACKING_ID): ~
+
 twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        gaTrackingId: '%env(GA_TRACKING_ID)%'
