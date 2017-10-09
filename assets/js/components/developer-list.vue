@@ -7,7 +7,9 @@
                 <v-list-tile-avatar>
                     <v-badge left overlap color="green">
                         <span slot="badge">{{ item.total }}</span>
-                        <img v-bind:src="item.avatar">
+                        <a v-bind:href="item.profile" target="_blank">
+                            <img v-bind:src="item.avatar">
+                        </a>
                     </v-badge>
                 </v-list-tile-avatar>
                 <v-list-tile-content>

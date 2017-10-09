@@ -60,6 +60,7 @@ class Github
             'total' => $issues['total_count'],
             'avatar' => $user['avatar_url'],
             'name' => $user['name'],
+            'profile' => $user['html_url'],
         ];
     }
 }
