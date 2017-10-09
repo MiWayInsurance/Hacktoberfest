@@ -52,7 +52,7 @@
                 });
             },
             fetch(user) {
-                fetch('/api/' + user).then((response) => {
+                fetch('/index.php/api/' + user).then((response) => {
                     response.json().then((result) => {
                         extend(find(this.values, {'name': user}), result, {'done': true});
                         this.$emit('update', sum(map(this.values, 'total')), this.team);
