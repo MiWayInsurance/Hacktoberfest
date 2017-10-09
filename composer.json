@@ -38,8 +38,7 @@
     },
     "scripts": {
         "auto-scripts": {
-            "make cache-warmup": "script",
-            "node_modules/.bin/encore production": "script"
+            "make cache-warmup": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"
