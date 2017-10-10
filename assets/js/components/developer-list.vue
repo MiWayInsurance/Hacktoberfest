@@ -5,7 +5,7 @@
             <template v-for="item in values">
                 <v-divider inset></v-divider>
                 <v-list-tile avatar v-bind:key="item.name" :title="item.name">
-                    <v-list-tile-avatar @click.stop="showPrList(item)">
+                    <v-list-tile-avatar @click.stop="showPrList(item)" :class="'cursor-pointer'">
                         <v-badge left overlap color="green">
                             <span slot="badge">{{ item.total }}</span>
                             <img v-bind:src="item.avatar">
@@ -44,7 +44,14 @@
         <v-dialog v-model="dialog" lazy absolute width="600px">
             <v-card>
                 <v-card-title>
-                    <div class="headline">{{dialogData.name}} - PR List</div>
+                    <div class="headline">
+                        <a v-bind:href="dialogData.profile" :title="'View GitHub Profile'" :target="'_blank'">
+                            <v-avatar :size="'40px'">
+                                <img v-bind:src="dialogData.avatar">
+                            </v-avatar>
+                        </a>
+                        {{dialogData.name}} - PR List
+                    </div>
                 </v-card-title>
                 <v-card-text>
                     <v-list two-line>
@@ -59,6 +66,12 @@
                                         {{ title }}
                                     </v-list-tile-sub-title>
                                 </v-list-tile-content>
+                            </v-list-tile>
+                        </template>
+                        <template v-if="dialogData.list && dialogData.list.length < 1">
+                            <v-divider></v-divider>
+                            <v-list-tile>
+                                <v-list-tile-title>No pull requests</v-list-tile-title>
                             </v-list-tile>
                         </template>
                     </v-list>

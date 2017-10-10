@@ -75,7 +75,8 @@ class Github
             'public_repos' => $user['public_repos'],
             'followers' => $user['followers'],
             'following' => $user['following'],
-            'list' => array_column($issues['items'],  'title', 'html_url')
+            'list' => array_column($issues['items'],  'title', 'html_url'),
+            'profile' => $user['html_url'],
         ];
     }
 }
