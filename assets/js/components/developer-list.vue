@@ -13,8 +13,7 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            <span v-if="item.user" :html="item.user.name"></span>
-                            <span v-else :html="item.user"></span>
+                            <span v-if="item.user">{{ item.user.name }}</span>
 
                             <v-chip v-if="item.done" small outline class="grey">
                                 <v-avatar class="grey darken-2">{{ item.user.followers }}</v-avatar>
