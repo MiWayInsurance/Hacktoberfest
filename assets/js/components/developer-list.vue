@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-list>
+        <v-list  three-line>
             <v-subheader>Developer Progress</v-subheader>
             <template v-for="item in values">
                 <v-divider inset></v-divider>
@@ -13,9 +13,29 @@
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            <v-progress-linear v-if="!item.done" v-bind:indeterminate="true"></v-progress-linear>
-                            <v-progress-linear v-else :value="item.total * 4"></v-progress-linear>
+                            {{item.name}}
                         </v-list-tile-title>
+
+                        <v-list-tile-sub-title>
+                            <v-chip v-if="item.done"  small class="primary white--text">
+                                <v-icon>fa-code-fork</v-icon>&nbsp;
+                                {{ item.public_repos }} Public Repo
+                            </v-chip>
+                            <v-chip v-if="item.done"  small class="primary white--text">
+                                <v-icon>fa-users</v-icon>&nbsp;
+                                {{ item.following }} Following
+                            </v-chip>
+                            <v-chip v-if="item.done"  small class="primary white--text">
+                                <v-icon>fa-user</v-icon>&nbsp;
+                                {{ item.followers }} Followers
+                            </v-chip>
+                        </v-list-tile-sub-title>
+
+                        <v-list-tile-sub-title>
+                            <v-progress-linear v-if="!item.done" v-bind:indeterminate="true"></v-progress-linear>
+                            <v-progress-linear v-else :value="item.total / 4.0 * 100"></v-progress-linear>
+                        </v-list-tile-sub-title>
+
                     </v-list-tile-content>
                 </v-list-tile>
             </template>
