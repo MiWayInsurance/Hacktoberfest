@@ -48,6 +48,12 @@
                                 </v-list-tile-content>
                             </v-list-tile>
                         </template>
+                        <template v-if="dialogData.list && dialogData.list.length < 1">
+                            <v-divider></v-divider>
+                            <v-list-tile>
+                                <v-list-tile-title>No pull requests</v-list-tile-title>
+                            </v-list-tile>
+                        </template>
                     </v-list>
                 </v-card-text>
                 <v-card-actions>
