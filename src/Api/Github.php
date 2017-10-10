@@ -9,10 +9,12 @@ use Symfony\Component\Yaml\Yaml;
 
 class Github
 {
+    const CACHE_LIFETIME = 300; // 5 minutes
+
     const AUTHOR_ASSOCIATION = [
         'COLLABORATOR',
         'MEMBER',
-        'OWNER'
+        'OWNER',
     ];
 
     private $client;
@@ -21,11 +23,11 @@ class Github
 
     private $cache;
 
-    public function __construct($projectDir, $cacheDir)
+    public function __construct(string $projectDir, string $cacheDir)
     {
         $this->client = new Client();
         $this->projectDir = $projectDir;
-        $this->cache = new FilesystemAdapter('', 300, $cacheDir);
+        $this->cache = new FilesystemAdapter('', self::CACHE_LIFETIME, $cacheDir);
         $this->client->addCache($this->cache);
     }
 
@@ -34,49 +36,93 @@ class Github
         return Yaml::parse(file_get_contents($this->projectDir.'/config/teams.yaml'))['teams'];
     }
 
-    public function getContributions($user)
+    public function getContributions(string $username): array
     {
         $this->client->authenticate(getenv('GITHUB_AUTH_TOKEN'), Client::AUTH_HTTP_TOKEN);
 
-        $cache = $this->cache->getItem($user);
+        $cache = $this->cache->getItem($username);
 
         if ($cache->isHit()) {
-            $issues = $cache->get()['issues'];
+            $prList = $cache->get()['prlist'];
             $user = $cache->get()['user'];
         } else {
-            $params = [
-                '-label' => 'invalid',
-                'created' => '2017-09-30T00:00:00-12:00..2017-10-31T23:59:59-12:00',
-                'type' => 'pr',
-                'is' => 'public',
-                'author' => $user,
-            ];
+            $prList = $this->filterOwnPRs($this->getPRList($username));
+            $prList['list'] = array_map($this->getPRDetails($username), $prList['items']);
 
-            $issues = $this->client->api('search')->issues(implode(' ', array_map(function ($k, $v) {
-                return "$k:$v";
-            }, array_keys($params), array_values($params))));
+            $user = $this->client->users()->show($username);
 
-            $issues['items'] = array_filter($issues['items'], function ($issue) {
-                return !in_array($issue['author_association'], self::AUTHOR_ASSOCIATION);
-            });
-
-            $issues['total_count'] = count($issues['items']);
-
-            $user = $this->client->users()->show($user);
-
-            $cache->set(['issues' => $issues, 'user' => $user]);
+            $cache->set(['prlist' => $prList, 'user' => $user]);
             $this->cache->save($cache);
         }
 
         return [
-            'total' => $issues['total_count'],
-            'avatar' => $user['avatar_url'],
-            'name' => $user['name'],
-            'public_repos' => $user['public_repos'],
-            'followers' => $user['followers'],
-            'following' => $user['following'],
-            'list' => array_column($issues['items'],  'title', 'html_url'),
-            'profile' => $user['html_url'],
+            'total' => $prList['total_count'],
+            'list' => $prList['list'],
+            'user' => [
+                'avatar' => $user['avatar_url'],
+                'name' => $user['name'],
+                'followers' => $user['followers'],
+                'public_repos' => $user['public_repos'],
+                'following' => $user['following'],
+                'profile' => $user['html_url'],
+
+            ],
         ];
+    }
+
+    /**
+     * @param string $username
+     *
+     * @return callable
+     */
+    protected function getPRDetails(string $username): callable
+    {
+        return function (array $pr) use ($username): array {
+            $status = $pr['state'];
+
+            if ('open' !== $status) {
+                [$project, $repo] = explode('/', substr($pr['html_url'], 19));
+
+                $merged = $this->client->pullRequest()->show($project, $repo, $pr['number'])['merged'];
+                $status = $merged ? 'merged' : $status;
+            }
+
+            return [
+                'title' => $pr['title'],
+                'url' => $pr['html_url'],
+                'status' => $status,
+            ];
+        };
+    }
+
+    protected function getPRList(string $username): array
+    {
+        $params = [
+            '-label' => 'invalid',
+            'created' => '2017-09-30T00:00:00-12:00..2017-10-31T23:59:59-12:00',
+            'type' => 'pr',
+            'is' => 'public',
+            'author' => $username,
+        ];
+
+        return $this->client
+            ->api('search')
+            ->issues(
+                implode(
+                    ' ',
+                    array_map(function ($k, $v) { return "$k:$v"; }, array_keys($params), array_values($params))
+                )
+            );
+    }
+
+    protected function filterOwnPRs(array $prList): array
+    {
+        $prList['items'] = array_filter($prList['items'], function ($pr) {
+            return !in_array($pr['author_association'], self::AUTHOR_ASSOCIATION);
+        });
+
+        $prList['total_count'] = count($prList['items']);
+
+        return $prList;
     }
 }

@@ -1,22 +1,30 @@
 <template>
-    <v-container grid-list-xl text-xs-center>
+    <v-container fluid grid-list-xl text-xs-center>
         <v-layout row wrap  v-bind="binding">
             <div class="vs hidden-md-and-down">VS</div>
-            <v-flex v-for="(developers, team) in teams" :key="team">
+            <v-flex v-for="(users, team) in teams" :key="team">
                 <v-card class="header elevation-10" :class="team">
                     <v-card-text class="px-0"></v-card-text>
                 </v-card>
                 <br />
                 <v-card flat>
                     <v-card-text class="indigo--text">
-                        PR Count
-                        <div class="counter">{{ totalPrs[team] }}</div>
+                        <v-progress-circular
+                                v-bind:size="120"
+                                v-bind:width="!totalPrs[team] ? 5 : 15"
+                                v-bind:rotate="180"
+                                v-bind:value="totalPrs[team]"
+                                :color="team"
+                                :indeterminate="!totalPrs[team]"
+                        >
+                            {{ totalPrs[team] }}
+                        </v-progress-circular>
                     </v-card-text>
                 </v-card>
                 <br />
                 <hr />
                 <br />
-                <developer-list :items="developers" @update="total" :team="team"></developer-list>
+                <developer-list :user-list="users" @update="total" :team="team"></developer-list>
             </v-flex>
         </v-layout>
     </v-container>
