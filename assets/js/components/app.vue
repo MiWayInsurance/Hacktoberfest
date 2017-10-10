@@ -10,10 +10,10 @@
                 <v-card flat>
                     <v-card-text class="indigo--text">
                         <v-progress-circular
-                                v-bind:size="120"
-                                v-bind:width="!totalPrs[team] ? 5 : 15"
-                                v-bind:rotate="180"
-                                v-bind:value="totalPrs[team]"
+                                :size="120"
+                                :width="!totalPrs[team] ? 5 : 15"
+                                :rotate="180"
+                                :value="totalPrs[team]"
                                 :color="team"
                                 :indeterminate="!totalPrs[team]"
                         >

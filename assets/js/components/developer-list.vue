@@ -4,16 +4,17 @@
             <v-subheader>Developer Progress</v-subheader>
             <template v-for="item in users">
                 <v-divider inset></v-divider>
-                <v-list-tile avatar v-bind:key="item.user.name" :title="item.user.name">
+                <v-list-tile avatar :key="item.user ? item.user.name : item.name">
                     <v-list-tile-avatar @click.stop="showPrList(item)" :class="'cursor-pointer'">
-                        <v-badge left overlap color="green">
+                        <v-badge left overlap color="green" v-if="item.done">
                             <span slot="badge">{{ item.total }}</span>
-                            <img v-bind:src="item.user.avatar">
+                            <img :src="item.user.avatar">
                         </v-badge>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            {{item.user.name}}
+                            <span v-if="item.user" :html="item.user.name"></span>
+                            <span v-else :html="item.user"></span>
 
                             <v-chip v-if="item.done" small outline class="grey">
                                 <v-avatar class="grey darken-2">{{ item.user.followers }}</v-avatar>
@@ -33,7 +34,7 @@
 
                         </v-list-tile-title>
                         <v-list-tile-sub-title>
-                            <v-progress-linear v-if="!item.done" v-bind:indeterminate="true"></v-progress-linear>
+                            <v-progress-linear v-if="!item.done" :indeterminate="true"></v-progress-linear>
                             <v-progress-linear v-else :value="(item.max) ? 100 : item.progress" :color="item.max ? 'warning' : 'primary'"></v-progress-linear>
                         </v-list-tile-sub-title>
 
@@ -46,9 +47,9 @@
             <v-card>
                 <v-card-title>
                     <div class="headline">
-                        <a v-bind:href="dialogData.user.profile" :title="'View GitHub Profile'" :target="'_blank'">
+                        <a :href="dialogData.user.profile" :title="'View GitHub Profile'" :target="'_blank'">
                             <v-avatar :size="'40px'">
-                                <img v-bind:src="dialogData.user.avatar">
+                                <img :src="dialogData.user.avatar">
                             </v-avatar>
                         </a>
                         {{dialogData.user.name}}
