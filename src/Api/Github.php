@@ -46,7 +46,7 @@ class Github
             $prList = $cache->get()['prlist'];
             $user = $cache->get()['user'];
         } else {
-            $prList = $this->filterOwnPRs($this->getPRList($username));
+            $prList = $this->getPRList($username);
             $prList['list'] = array_map($this->getPRDetails($username), $prList['items']);
 
             $user = $this->client->users()->show($username);
@@ -57,6 +57,7 @@ class Github
 
         return [
             'total' => $prList['total_count'],
+            'total_invalid' => $prList['total_invalid'],
             'list' => $prList['list'],
             'user' => [
                 'avatar' => $user['avatar_url'],
@@ -91,6 +92,8 @@ class Github
                 'title' => $pr['title'],
                 'url' => $pr['html_url'],
                 'status' => $status,
+                'valid' => $pr['valid'],
+                'invalid_reason' => $pr['invalid_reason'],
             ];
         };
     }
@@ -105,7 +108,7 @@ class Github
             'author' => $username,
         ];
 
-        return $this->client
+        $list = $this->client
             ->api('search')
             ->issues(
                 implode(
@@ -113,15 +116,42 @@ class Github
                     array_map(function ($k, $v) { return "$k:$v"; }, array_keys($params), array_values($params))
                 )
             );
-    }
 
-    protected function filterOwnPRs(array $prList): array
-    {
-        $prList['items'] = array_filter($prList['items'], function ($pr) {
-            return !in_array($pr['author_association'], self::AUTHOR_ASSOCIATION);
+        array_walk($list['items'], function (&$pr) {
+            $pr['valid'] = true;
+            $pr['invalid_reason'] = '';
         });
 
-        $prList['total_count'] = count($prList['items']);
+        $list = $this->filterInvalidPRs($this->filterOwnPRs($list, $username));
+        $list['total_count'] = count(array_filter($list['items'], function ($pr) { return $pr['valid']; }));
+        $list['total_invalid'] = count(array_filter($list['items'], function ($pr) { return !$pr['valid']; }));
+
+        return $list;
+    }
+
+    protected function filterOwnPRs(array $prList, $username): array
+    {
+        array_walk($prList['items'], function (&$pr) use($username) {
+            if (in_array($pr['author_association'], self::AUTHOR_ASSOCIATION)) {
+                $pr['valid'] = false;
+                $pr['invalid_reason'] = sprintf('%s is a %s on the project', $username, strtolower($pr['author_association']));
+            }
+        });
+
+        return $prList;
+    }
+
+    protected function filterInvalidPRs(array $prList): array
+    {
+        $invalidPRList = Yaml::parse(file_get_contents($this->projectDir.'/config/teams.yaml'))['invalid_prs'];
+        $invalidPRs = array_column($invalidPRList, 'reason', 'url');
+
+        array_walk($prList['items'], function (&$pr) use ($invalidPRs) {
+            if (isset($invalidPRs[$pr['html_url']])) {
+                $pr['valid'] = false;
+                $pr['invalid_reason'] = $invalidPRs[$pr['html_url']];
+            }
+        });
 
         return $prList;
     }
