@@ -26,3 +26,8 @@ teams:
         - Sunjalo
         - sanushen
         - derde
+invalid_prs:
+    - url: https://github.com/symfony/symfony/pull/24511
+      reason: Creator closed the PR as invalid
+    - url: https://github.com/mostertb/fizzbuzz/pull/1
+      reason: PR was created to team members project

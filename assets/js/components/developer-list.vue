@@ -57,7 +57,7 @@
                 <v-card-text>
                     <v-list two-line avatar>
                         <v-subheader>PR List</v-subheader>
-                        <template v-for="pr in dialogData.list">
+                        <template v-for="pr in dialogData.list" v-if="pr.valid">
                             <v-divider></v-divider>
                             <v-list-tile>
                                 <v-list-tile-action>
@@ -69,6 +69,34 @@
                                     </v-list-tile-title>
                                     <v-list-tile-sub-title>
                                         {{ pr.title }}
+                                    </v-list-tile-sub-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </template>
+                        <template v-if="dialogData.total === 0">
+                            <v-divider></v-divider>
+                            <v-list-tile>
+                                <v-list-tile-title>No pull requests</v-list-tile-title>
+                            </v-list-tile>
+                        </template>
+                    </v-list>
+                    <v-list three-line avatar v-if="dialogData.total_invalid > 0">
+                        <v-subheader>Invalid PR List</v-subheader>
+                        <template v-for="pr in dialogData.list" v-if="!pr.valid">
+                            <v-divider></v-divider>
+                            <v-list-tile>
+                                <v-list-tile-action>
+                                    <v-icon x-large :color="prColor(pr)">fa-code-fork</v-icon>
+                                </v-list-tile-action>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>
+                                        <a :href="pr.url" target="_blank">{{parsePr(pr.url)}}</a>
+                                    </v-list-tile-title>
+                                    <v-list-tile-sub-title>
+                                        {{ pr.title }}
+                                    </v-list-tile-sub-title>
+                                    <v-list-tile-sub-title class="red--text">
+                                        {{ pr.invalid_reason }}
                                     </v-list-tile-sub-title>
                                 </v-list-tile-content>
                             </v-list-tile>

@@ -29,9 +29,13 @@
 
 .vs {
   height: 3em;
-  position: relative;
-  left: 50%;
-  top: 2.5em;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 46px;
+  top: 3.5em;
   z-index: 28;
   border-radius: 100%;
   border: 1px solid #cccccc;
@@ -64,4 +68,14 @@
 .list__tile__title {
   height: 32px !important;
   line-height: 32px !important;
+}
+
+.container {
+  &.grid-list-xl {
+    .layout {
+      .flex {
+        width: 50%;
+      }
+    }
+  }
 }
