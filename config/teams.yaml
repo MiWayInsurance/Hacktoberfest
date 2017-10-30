@@ -34,3 +34,5 @@ invalid_prs:
       reason: Creator closed the PR as invalid
     - url: https://github.com/mostertb/fizzbuzz/pull/1
       reason: PR was created to team members project
+    - url: https://github.com/dhdutoit/octocom/pull/3
+      reason: PR was created to team members project
