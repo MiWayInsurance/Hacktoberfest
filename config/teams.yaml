@@ -37,3 +37,5 @@ invalid_prs:
       reason: PR was created to team members project
     - url: https://github.com/dhdutoit/octocom/pull/3
       reason: PR was created to team members project
+    - url: https://github.com/MiWayInsurance/Hacktoberfest/pull/8
+      reason: PR was created to teams own project
