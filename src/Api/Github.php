@@ -110,6 +110,7 @@ class Github
 
         $list = $this->client
             ->api('search')
+            ->setPerPage(100)
             ->issues(
                 implode(
                     ' ',
