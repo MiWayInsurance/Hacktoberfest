@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class Github
 {
-    const CACHE_LIFETIME = 300; // 5 minutes
+    const CACHE_LIFETIME = 2592000; // 1 month
 
     const AUTHOR_ASSOCIATION = [
         'COLLABORATOR',
